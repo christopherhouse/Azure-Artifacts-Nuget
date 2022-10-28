@@ -52,12 +52,10 @@ stages:
         pool:
           vmImage: 'ubuntu-latest'
         steps:
-          - task: DownloadPipelineArtifact@2
+          - download: current
+            artifact: NuGet
             displayName: 'Download NuGet Package'
-            inputs:
-              artifact: 'NuGet'
-              path: '$(Build.ArtifactStagingDirectory)'
-          
+
           - task: NuGetAuthenticate@0
             displayName: 'Authenticate to NuGet Feed'
           
