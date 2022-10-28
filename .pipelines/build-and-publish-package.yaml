@@ -29,10 +29,40 @@ stages:
               command: build
               projects: '**/*.csproj'
               arguments: '--configuration $(buildConfiguration)'
-          
-          - task: NugetCommand@2
-            displayName: 'NuGet pack'
+
+          - task: DotNetCoreCLI@2
             inputs:
               command: pack
               packagesToPack: '**/*.csproj'
+              versioningScheme: byEnvVar
+              versionEnvVar: 'PackageVersion'
               arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+          
+          - task: PublishPipelineArtifact@1
+            displayName: 'Publish NuGet Package as Pipeline Artifact'
+            inputs:
+              artifactName: 'NuGet'
+              targetPath: '$(Build.ArtifactStagingDirectory)'
+  
+  - stage: PublishToArtifactFeed
+    displayName: Publish to Artifact Feed
+    dependsOn: Build
+    jobs:
+      - job: PublishToArtifactFeed
+        displayName: Publish to Artifact Feed
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - download: current
+            artifact: NuGet
+            displayName: 'Download NuGet Package'
+
+          - task: NuGetAuthenticate@0
+            displayName: 'Authenticate to NuGet Feed'
+          
+          - task: NuGetCommand@2
+            displayName: 'NuGet push'
+            inputs:
+              command: push
+              packagesToPush: '$(Pipeline.Workspace)/NuGet/*.nupkg'
+              publishVstsFeed: 'Customer Work/MyNugetPackages'

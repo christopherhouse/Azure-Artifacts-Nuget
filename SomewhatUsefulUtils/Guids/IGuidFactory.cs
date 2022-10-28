@@ -7,4 +7,5 @@ public interface IGuidFactory
     string GetGuidAsString();
 
     string ConvertGuidToString(Guid g);
+    byte[] GetGuidAsByteArray();
 }
