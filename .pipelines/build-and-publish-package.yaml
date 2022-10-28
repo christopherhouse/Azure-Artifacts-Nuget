@@ -36,3 +36,9 @@ stages:
               command: pack
               packagesToPack: '**/*.csproj'
               arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+          
+          - task: PublishPipelineArtifact@1
+            displayName: 'Publish NuGet Package as Pipeline Artifact'
+            inputs:
+              artifactName: 'NuGet'
+              targetPath: '$(Build.ArtifactStagingDirectory)'
