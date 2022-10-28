@@ -29,12 +29,21 @@ stages:
               command: build
               projects: '**/*.csproj'
               arguments: '--configuration $(buildConfiguration)'
+
+          - task: DotNetCoreCLI@2
+            inputs:
+              command: pack
+              packagesToPack: '**/*.csproj'
+              versioningScheme: byBuildNumber
+              arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
           
           - task: NugetCommand@2
             displayName: 'NuGet pack'
             inputs:
               command: pack
               packagesToPack: '**/*.csproj'
+              versioningScheme: byEnvVar
+              versionEnvVar: 'PackageVersion'
               arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
           
           - task: PublishPipelineArtifact@1
