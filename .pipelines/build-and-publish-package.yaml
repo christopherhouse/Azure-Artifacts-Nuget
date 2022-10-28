@@ -60,17 +60,10 @@ stages:
           
           - task: NuGetAuthenticate@0
             displayName: 'Authenticate to NuGet Feed'
-            inputs:
-              nuGetServiceConnections: 'NuGet Feed'
           
           - task: NuGetCommand@2
             displayName: 'NuGet push'
             inputs:
               command: push
               packagesToPush: '$(Pipeline.Workspace)/NuGet/*.nupkg'
-              publishVstsFeed: 'NuGet Feed'
-              nuGetFeedType: 'internal'
-              publishVstsFeedAccessType: 'private'
-              verbosityRestore: 'Detailed'
-              verbosityPack: 'Detailed'
-              verbosityPush: 'Detailed'
+              publishVstsFeed: 'Customer Work/MyNugetPackages'
