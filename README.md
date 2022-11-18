@@ -48,7 +48,8 @@ Versioning of NuGet packages using the approach demonstrated in this pipeline re
 These variables should be defined at the pipeline level so that they are persisted across pipeline runs.  To create the variables, in the Azure Pipelines Editor, click the `Variables` button at the top right of the editor:
 ![Define Pipeline Variables](images/define-variables.png "Define variables")
 
-
+When you've created your variables, you should see something that looks like this:
+![Variable Definitions](images/variables-defined.png)
 
 ### Updating Major and Minor Version Numbers
 
