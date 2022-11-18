@@ -53,4 +53,6 @@ When you've created your variables, you should see something that looks like thi
 
 ### Updating Major and Minor Version Numbers
 
-As mentioned abovie, updating either the 
+As mentioned abovie, updating either the `Major` or `Minor` version variables causes the `Patch` variable to reset to zero.  There are two possible approaches to updating these variables, however only one will result in the desired behavior for automatically incrementing and resetting the `Patch` variable, so it is important you follow the correct approach.  To correctly update either `Major` or `Minor`, you **must** edit the pipeline definition in Azure DevOps and make the change by clicking the `Variables` button at the top right of the screen in the pipeline editor.  Edit your pipeline definition, click the `Variables` button, make the necessary changes to `Major` and/or `Minor`, then click `Save` to dismiss the `Variables` dialog.  From there you can either click `Run` to initiate a pipeline run using the new value(s) or wait for a triggered run of your pipeline from a PR/commit.
+
+It is also possible to update pipeline variables when you manually run a pipeline in Azure Pipelines.  It is important that you do not update `Major` or `Minor` using this approach.  Doing so does not persist the values for future pipeline runs and will result in the automatic incrementing of the `Patch` parameter not behaving as expected.
